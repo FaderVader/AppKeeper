@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppKeeperService", "AppKeeperService\AppKeeperService.csproj", "{125E901F-1E07-4E8E-9AFD-AA9E7D602703}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{125E901F-1E07-4E8E-9AFD-AA9E7D602703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{125E901F-1E07-4E8E-9AFD-AA9E7D602703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{125E901F-1E07-4E8E-9AFD-AA9E7D602703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{125E901F-1E07-4E8E-9AFD-AA9E7D602703}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90119F8D-FA74-41A4-9300-D7A61E407F3B}
+	EndGlobalSection
+EndGlobal
