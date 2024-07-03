@@ -1,6 +1,9 @@
 # AppKeeper
 
-### Tiny utillity-service to keep an application running.
+### Motivation and Inspiration
+[Create Windows Service using BackgroundService](https://learn.microsoft.com/en-us/dotnet/core/extensions/windows-service)
+
+Tiny utillity-service to keep an application running. <br>
 Intended to be installed as a service on target-host.
 
 Will look for current processes, and if target-application is not found, will attempt to restart it, while impersonating current user. <br>
@@ -32,3 +35,4 @@ In folder **ServiceInstallScripts** are  powershell install/uninstall scripts fo
 Notice: Use a plain PS window for executing the scripts. <br>
 Do no execute scripts from PS ISE.<br>
 ISE blindly assumes that target-files are located in `C:/Windows/System32`, as this is the home-directory of ISE.
+
