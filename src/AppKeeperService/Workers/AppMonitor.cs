@@ -3,13 +3,13 @@ using AppKeeperService.Utils;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
-namespace AppKeeperService;
-public class KeepItUp
+namespace AppKeeperService.Workers;
+public class AppMonitor : IAppMonitor
 {
-    private readonly ILogger<KeepItUp> logger;
+    private readonly ILogger<AppMonitor> logger;
     private readonly CoreSettings coreSettings;
 
-    public KeepItUp(ILogger<KeepItUp> logger, IOptions<CoreSettings> coreOptions)
+    public AppMonitor(ILogger<AppMonitor> logger, IOptions<CoreSettings> coreOptions)
     {
         this.logger = logger;
         coreSettings = coreOptions.Value;
@@ -23,30 +23,37 @@ public class KeepItUp
             {
                 logger.LogInformation("Now checking status of {appName}", app);
 
-                var processOfInterest = Process.GetProcessesByName(app.DisplayName).FirstOrDefault();
+                var targetProcess = Process.GetProcessesByName(app.DisplayName).FirstOrDefault();
 
-                if (processOfInterest is null)
+                if (targetProcess is null)
                 {
-                    logger.LogWarning("Process named {appName} was not found in active processes.", app.DisplayName);
+                    logger.LogWarning("Process named {appName} was not found among active processes.", app.DisplayName);
                     await StartApp(app.PathToExe);
                     logger.LogInformation("Started app {appName} from {path}.", app.DisplayName, app.PathToExe);
                     return;
                 }
 
-                if (!processOfInterest.Responding)
+                if (!targetProcess.Responding)
                 {
                     logger.LogWarning("Process named {appName} is not responding.", app.DisplayName);
-                    processOfInterest.Kill();
+                    targetProcess.Kill();
                     await Task.Delay(coreSettings.TimeoutAfterKillInSecs * 1000);
                     await StartApp(app.PathToExe);
+                    logger.LogInformation("Started app {appName} from {path}.", app.DisplayName, app.PathToExe);
+                    return;
                 }
 
-                if (processOfInterest.HasExited)
+                if (targetProcess.HasExited)
                 {
                     logger.LogWarning("Process named {appName} has been terminated.", app.DisplayName);
+                    targetProcess.Kill();
+                    await Task.Delay(coreSettings.TimeoutAfterKillInSecs * 1000);
+                    await StartApp(app.PathToExe);
+                    logger.LogInformation("Started app {appName} from {path}.", app.DisplayName, app.PathToExe);
+                    return;
                 }
 
-                logger.LogInformation("Found {appName}/{processName} as running OK.", app.DisplayName, processOfInterest.ProcessName);
+                logger.LogInformation("Found {appName}/{processName} as running OK.", app.DisplayName, targetProcess.ProcessName);
             });
         }
         catch (Exception e)

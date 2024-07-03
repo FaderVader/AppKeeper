@@ -1,6 +1,5 @@
 ﻿using AppKeeperService.Models;
-using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
-using Microsoft.Extensions.Logging.Configuration;
+using AppKeeperService.Workers;
 using Serilog;
 
 namespace AppKeeperService;
@@ -28,6 +27,6 @@ public static class RegisterServices
         
         // Setup configuration for DI
         builder.Services.Configure<CoreSettings>(builder.Configuration.GetSection(nameof(CoreSettings)));
-        builder.Services.AddSingleton<KeepItUp>();
+        builder.Services.AddSingleton<IAppMonitor, AppMonitor>();
     }
 }

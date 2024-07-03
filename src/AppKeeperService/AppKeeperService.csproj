@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Version>1.0.0.0</Version>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-AppKeeperService-e21087d4-ab25-407b-8f9a-0f63984e30b6</UserSecretsId>
   </PropertyGroup>

@@ -1,3 +1,5 @@
+using AppKeeperService.Service;
+
 namespace AppKeeperService
 {
     public class Program
