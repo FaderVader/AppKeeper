@@ -1,4 +1,5 @@
 ﻿using AppKeeperService.Models;
+using AppKeeperService.Service;
 using AppKeeperService.Workers;
 using Serilog;
 
@@ -7,12 +8,12 @@ public static class RegisterServices
 {
     public static void ConfigureServices(this HostApplicationBuilder builder)
     {
-        builder.Configuration.AddJsonFile("appSettings.json", optional: false, reloadOnChange: false);
+        builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
 
         var logSettings = new LoggingSettings();
-        builder.Configuration.GetSection("LoggingSettings").Bind(logSettings);
-        var logPath = Path.Combine(builder.Environment.ContentRootPath, logSettings.RelativePath, $"{builder.Environment.ApplicationName}");
+        builder.Configuration.GetRequiredSection("LoggingSettings").Bind(logSettings);
 
+        var logPath = Path.Combine(builder.Environment.ContentRootPath, logSettings.RelativePath, $"{builder.Environment.ApplicationName}");
         builder.Services.AddSerilog(lc => lc
             .Enrich.FromLogContext()
             .WriteTo.Console()
@@ -28,5 +29,8 @@ public static class RegisterServices
         // Setup configuration for DI
         builder.Services.Configure<CoreSettings>(builder.Configuration.GetSection(nameof(CoreSettings)));
         builder.Services.AddSingleton<IAppMonitor, AppMonitor>();
+
+        builder.Services.AddSingleton<WindowsBackgroundService>();
+        builder.Services.AddHostedService(provider => provider.GetRequiredService<WindowsBackgroundService>());
     }
 }
