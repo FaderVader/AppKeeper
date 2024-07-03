@@ -13,7 +13,6 @@ namespace AppKeeperService
             {
                 options.ServiceName = "AppKeeper";
             });
-            builder.Services.AddHostedService<WindowsBackgroundService>();
 
             var host = builder.Build();
             host.Run();
